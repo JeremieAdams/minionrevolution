@@ -1,0 +1,105 @@
+/*
+Author: Jeremie M Adams
+Purpose: Created for Minion Revolution
+File: This is for the physical layout of the site.
+*/
+.banner {
+	background-size: cover;
+	min-height:767px;
+	text-align: center;
+	padding-top:1em;
+}
+
+.capBanner{
+	float:right;
+	height: 120px;
+	width:240px;
+	display: block;
+	margin-right: 20px;
+}
+
+.shopBanner {
+	background-size: cover;
+	min-height:767px;
+	text-align: center;
+	padding-top:1em;
+}
+
+.shopWrapper{
+	width: 740px;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 30px;
+}
+
+.shopSectionWrapper{
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 30px;
+	display: block;
+	overflow: auto;
+}
+
+#shopSectionHeader{
+	
+}
+
+#shopSectionBody{
+	
+}
+
+#shopLinkWrapper{
+	width: 184px;
+	height: 400px;
+	padding: 4px;
+	margin: 20px;
+	position: relative;
+	float: left;
+}
+
+#shopLink{
+	width: 180px;
+	height: 395px;
+}
+
+#shopLink img{
+	width: 180px;
+	height: 180px;
+}
+
+#shopText{
+	padding: 4px;
+}
+
+#shopText a{
+	width: 150px;
+	height: 50px;
+}
+
+
+#shopText img{
+	width: 150px;
+	height: 50px;
+}
+
+.orderWindow{
+	
+}
+
+.checkOrder{
+	
+}
+
+.orderWindow img{
+	width: 360px;
+	height: 360px;
+}
+
+.orderWindowHeader{
+	
+}
+
+.FAQSectionWrapper{
+	
+}

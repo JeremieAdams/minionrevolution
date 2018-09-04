@@ -1,0 +1,111 @@
+/*
+Author: Jeremie M Adams
+Purpose: Created for Minion Revolution
+File: This is for the physical layout of the site.
+*/
+html, body{
+   font-family: 'PT Sans Narrow', sans-serif;
+   font-size: 100%;
+   background:#0F1417; 
+}
+
+.banner {
+	background: url(../images/minonBanner.jpg) no-repeat center top;
+}
+
+a:link {font-family:Arial; color:red; text-decoration:none}
+
+a:visited {font-family:Arial; color:green; text-decoration:none}
+
+.shopBanner{
+	background: url(../images/capBanner.jpg) no-repeat center top;
+}
+
+.shopWrapper{
+	border-style: solid;
+    border-width: 3px;
+	border-color: grey;
+}
+
+.shopSectionWrapper{
+	border-style: solid;
+    border-width: 0px;
+	border-color: red;
+}
+
+#shopSectionHeader{
+	font-size: 30px;
+	font-weight: bold;
+	color: #fff;
+	text-align: center;
+	border-bottom: 2px solid grey;
+}
+
+#shopSectionBody{
+	border-style: solid;
+    border-width: 0px;
+	border-color: blue;
+}
+
+#shopLinkWrapper{
+	background-color: white;
+}
+
+#shopLink{
+	border-style: solid;
+    border-width: 2px;
+	border-color: #161722;
+	background-color: #CBCFFA;
+	text-align: center;
+}
+
+#shopLink img{
+	border-bottom: 2px solid #161722;
+	border-top: 2px solid #161722;
+}
+
+#shopText{
+	font-size: 90%;
+}
+
+#bolden1{
+	font-weight: bold;
+	font-size: 150%;
+}
+
+#bolden2{
+	font-weight: bold;
+	font-size: 130%;
+}
+
+#shopText img{
+	border-bottom: 0px solid #161722;
+	border-top: 0px solid #161722;
+}
+
+
+#textLift{
+	padding-bottom: 14px;
+}
+
+.orderWindow{
+	color: #fff;
+	text-align: center;
+}
+
+.orderWindow img{
+	border: 2px solid grey;
+}
+
+.orderWindowHeader{
+	
+}
+
+.checkOrder{
+	
+}
+
+.FAQSectionWrapper{
+	color: #fff;
+}
+
