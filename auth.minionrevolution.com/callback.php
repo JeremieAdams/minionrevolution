@@ -9,18 +9,20 @@
 	if(isset($_GET["code"])){
 		$codeReturn = ($_GET["code"]);
 		$url = 'https://login.eveonline.com/oauth/token';
-		
+/*		
 		$sql = "SELECT * FROM `auth_AppConfig` LIMIT 1";
 		$resultSql = $connection->query($sql);
 		$clientData = $resultSql->fetch_assoc();
 		$connection->close();
 		
 		$clientID = $clientData["auth_AppConfig_clientID"];
+		echo $clientID."<br />";
 		$clientSecret = $clientData["auth_AppConfig_clientSecret"];
-		$baseEncodeClient = base64_encode($clientID.":".$clientSecret);
-		$headers = "authorization: ".$baseEncodeClient."\r\ncontent-type: application/x-www-form-urlencoded\r\nhost: login.eveonline.com";
-		$fields = http_build_query(array('grant_type' => 'authorization_code', 'code' => $codeReturn));
-
+		echo $clientSecret."<br />";
+*/		
+		$clientId = "5d842215afea43958e1b7e24ebef5d59";
+		$clientSecret = "QigNtmznSL70QIMB75tL55msO8GcAoMEDuXFywLQ";
+		
 		$ch = curl_init();
 		
 		curl_setopt_array($ch, array(
@@ -31,17 +33,14 @@
 			"authorization: Basic " . base64_encode($clientId . ":" . $clientSecret),
 			"content-type: application/x-www-form-urlencoded"
 		  ),
+		  CURLOPT_RETURNTRANSFER => true
 		));
 
-		$response = curl_exec($ch);
+		$response = json_decode(curl_exec($ch));
 		$err = curl_error($ch);
-
-		var_dump($response);
 		
-		echo "<br /><br />";
-		
-		var_dump($ch);
-
+		echo $response->{'access_token'}."<br />";
+		echo $response->{'refresh_token'};
 		
 	} else {
 		$message = "Failure on submmission to EVE ESI SSO";
