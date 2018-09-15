@@ -1,7 +1,7 @@
 <?php
-	
+
 	include_once ('class.getCharID.php');
-	
+
 /*
 	Class:		.
 	Author:		Jeremie M Adams
@@ -11,29 +11,29 @@
 	T B C :		N/A
 */
 
-class ssoAuth {
-	
+class  tokenRefresh{
+
 	/*	Attributes	*/
 	
-	private $url = "https://login.eveonline.com/oauth/token";
+	private $url = 'https://login.eveonline.com/oauth/token';
 	private $clientId = "5d842215afea43958e1b7e24ebef5d59";
 	private $clientSecret = "QigNtmznSL70QIMB75tL55msO8GcAoMEDuXFywLQ";
-	private $codeReturn = "";
+	private $refreshToken;
 	private $response;
 	private $responseAccessToken;
 	private $responseTokenType;
 	private $responseExpiresIn;
 	private $responseRefreshToken;
-	private $charID;
-	
+		
 	/*	Methods		*/
-	
-	private function cURLAuthRequest() {
+
+	private function cURLRequest() {
 		$ch = curl_init();
+		
 		curl_setopt_array($ch, array(
 		  CURLOPT_URL => $this->url,
 		  CURLOPT_CUSTOMREQUEST => "POST",
-		  CURLOPT_POSTFIELDS => "grant_type=authorization_code&code=".$this->codeReturn,
+		  CURLOPT_POSTFIELDS => "grant_type=refresh_token&refresh_token=".$this->refreshToken,
 		  CURLOPT_HTTPHEADER => array(
 			"authorization: Basic " . base64_encode($this->clientId . ":" . $this->clientSecret),
 			"content-type: application/x-www-form-urlencoded"
@@ -61,10 +61,9 @@ class ssoAuth {
 	
 	////***	Constructor
 	
-	function __construct($inString)
-	{
-		$this->setCodeReturn($inString);
-		$this->cURLAuthRequest();
+	function __construct($inString){
+		$this->setRefreshToken($inString);
+		$this->cURLRequest();
 		$charIDCall = new getCharID($this->responseAccessToken);
 		$this->setCharID($charIDCall->getCharID());
 		$this->prepareSQL();
@@ -75,11 +74,10 @@ class ssoAuth {
 	
 	////***	Set Functions
 	
-	private function setCodeReturn($inString){
-		$this->codeReturn = $inString;
-		return;
+	private function setRefreshToken($inString){
+		$this->refreshToken = $inString;
 	}
-	
+
 	private function setResponse($authResponse){
 		$this->response = $authResponse;
 		$this->responseAccessToken = $authResponse->access_token;
@@ -93,11 +91,11 @@ class ssoAuth {
 		$this->charID = $inInt;
 		return;
 	}
-
+	
 	////***	Get Functions
 	
-	public function getAuthResponse(){
-		return $this->response;
+	public function getAccessToken(){
+		return $this->responseAccessToken;
 	}
 }
 
