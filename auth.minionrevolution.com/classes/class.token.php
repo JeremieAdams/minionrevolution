@@ -24,6 +24,7 @@ class  tokenRefresh{
 	private $responseTokenType;
 	private $responseExpiresIn;
 	private $responseRefreshToken;
+	private $currentDT;
 		
 	/*	Methods		*/
 
@@ -46,7 +47,9 @@ class  tokenRefresh{
 	
 	private function prepareSQL() {
 		require './esqueele/connect.php';
-		$sqlInsert = $connection->prepare("INSERT INTO `auth_Token` (`auth_Token_ID`, `auth_Token_CharacterID`, `auth_Token_AccessToken`, `auth_Token_RefreshToken`, `auth_Token_TokenType`, `auth_Token_DateTime`) VALUES (NULL, ?, ?, ? ,? , CURRENT_TIMESTAMP)");
+		$now = new DateTime();
+		$this->currentDT = $now->date;
+		$sqlInsert = $connection->prepare("INSERT INTO `auth_Token` (`auth_Token_ID`, `auth_Token_CharacterID`, `auth_Token_AccessToken`, `auth_Token_RefreshToken`, `auth_Token_TokenType`, `auth_Token_DateTime`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
 		$sqlInsert->bind_param("isss", $this->charID, $this->responseAccessToken, $this->responseRefreshToken, $this->responseTokenType);
 		
 		if ($sqlInsert->execute()) {
@@ -55,8 +58,6 @@ class  tokenRefresh{
 		} else {
 			echo "Error in SQL Injection";
 		}
-		
-		var_dump($sqlInsert);
 	}
 	
 	////***	Constructor

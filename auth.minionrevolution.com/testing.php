@@ -2,43 +2,39 @@
 
 	require '../public_html/minionrevolution.com/esqueele/connect.php';
 	
-	include_once ('classes/class.httpGetCall.php');
-	include_once ('classes/class.token.php');
-	include_once ('classes/class.getCharID.php');
+	include_once ('classes/class.tokenCheck.php');
+	include_once ('classes/class.mailHeaders.php');
+	include_once ('classes/class.mail.php');
+	include_once ('classes/class.contacts.php');
+	include_once ('classes/class.asset.php');
+	include_once ('classes/class.journal.php');
+	include_once ('classes/class.transactions.php');
 	
-/*	$systemRoute = "universe/systems";
-	$systemInfoRoute = "universe/systems/";
-	$mailRoute = "https://esi.evetech.net/latest/characters/94874035/mail/?datasource=tranquility&token=";
-*/
-	$refresh_token = 'lYMwbgLO6sjoF4TDsSAyCPw7ZqHX7hHKZMG1zZyUIdMRsKHGNVwtqNgWjISMkuLDq-6gzxTCdDjzVpUgjT1AiP5Y6z3VW9TQDoDLe7Lon3CrpXyf8_Q1q79Qdq_vIEVxQ--ZN-RVyTBTCdX8a1u1NRUoD25g_7zrvOmWRv93NCv9SL-IcFdS7bAVZzGkloajBv4jlz_ick1PONkJrdamHwMbLT66yFmnS-zpBzrmBVM1';
+	$charID = 94874035;
+
+	$tokenCheck = new SSOtokenCheck($charID);
+	var_dump($tokenCheck);
+	$authToken = $tokenCheck->getAccessToken();
+	echo "<br />authToken: " . $authToken . "<br />";
 	
-	$makeCall = new tokenRefresh($refresh_token);
-	$accessToken = new getCharID($makeCall->getAccessToken());
+	$mailHeaderCall = new ESImailHeaders($charID, $authToken);
+	var_dump($mailHeaderCall);
+	echo "<br />";
+
+	$contactCall = new ESIcontacts($charID, $authToken);
+	var_dump($contactCall);
+	echo "<br />";
 	
-	var_dump($makeCall);
-	echo "<br /><br />";
-	var_dump($accessToken);
-	echo "<br /><br />";
-	echo $accessToken->getCharName();
+	$assetCall = new ESIasset($charID, $authToken);
+	var_dump($assetCall);
+	echo "<br />";
 	
-/*	$makeMailCall = new httpAuthGetCall($mailRoute,$makeCall->getAccessToken());	
+	$journalCall = new ESIjournal($charID, $authToken);
+	var_dump($journalCall);
+	echo "<br />";
 	
-	$makeCall = new httpGetCall($systemRoute);
-	
-	$i = 0;
-	
-	foreach($makeCall->getReponse() as $item){
-		if ($i < 10) {
-			$systemEndRoute = $systemInfoRoute.$item;
-			$systemInfoCall = new httpGetCall($systemEndRoute);
-			$syetemResponse = $systemInfoCall->getReponse();
-			echo $syetemResponse->name."<br/>";
-			//var_dump($systemInfoCall->getReponse());
-		}
-		$i++;
-	}*/
-	
-	
-//	echo "<br />".gmdate("Y-m-d")."T".gmdate("H:i:s").".000Z";
+	$transactionsCall = new ESItransactions($charID, $authToken);
+	var_dump($transactionsCall);
+	echo "<br />";
 
 ?>

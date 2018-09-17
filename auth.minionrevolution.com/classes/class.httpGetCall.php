@@ -12,11 +12,10 @@
 class  httpGetCall{
 
 	/*	Attributes	*/
-
-	private $urlHead = "https://esi.evetech.net/latest/";
-	private $urlTail = "/?datasource=tranquility&language=en-us";
+	
 	private $url;
 	private $response;
+	private $headers;
 		
 	/*	Methods		*/
 	
@@ -39,6 +38,7 @@ class  httpGetCall{
 	function __construct($inRoute){
 		$this->setRoute($inRoute);
 		$this->cURLRequest();
+		return;
 	}
 	
 	////***	Modifier Functions
@@ -46,7 +46,7 @@ class  httpGetCall{
 	////***	Set Functions
 
 	private function setRoute($inRoute){
-		$this->url = $this->urlHead.$inRoute.$this->urlTail;
+		$this->url = $inRoute;
 		return;
 	}
 	
