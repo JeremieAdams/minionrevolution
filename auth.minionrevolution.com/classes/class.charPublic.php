@@ -51,9 +51,16 @@ class ESIcharPublic {
 		$sqlStatement = "SELECT * FROM `ESI_CharPublic` WHERE `ESI_CharPublic_ID` = ".$this->character_id;
 		$result = $connection->query($sqlStatement);
 		
-		if ($result->num_rows) {
+		if ($result->num_rows != 0) {
 			$sqlInsert = $connection->prepare("UPDATE `dickinso_mini`.`ESI_CharPublic` SET `ESI_CharPublic_Alliance_ID` = ?, `ESI_CharPublic_Ancestry_ID` = ?, `ESI_CharPublic_Birthday` = ?, `ESI_CharPublic_Bloodline_ID` = ?, `ESI_CharPublic_Corp_ID` = ?, `ESI_CharPublic_Description` = ?, `ESI_CharPublic_Gender` = ?, `ESI_CharPublic_Name` = ?, `ESI_CharPublic_Race_ID` = ?, `ESI_CharPublic_Security_Status` = ? WHERE ESI_CharPublic_ID = ?");
 			$sqlInsert->bind_param('iiisiisssid', $this->character_id, $this->alliance_id, $this->ancestry_id, $this->birthday, $this->bloodline_id, $this->corporation_id, $this->description, $this->gender, $this->name, $this->race_id, $this->security_status);
+			
+			if ($sqlInsert->execute()) {
+				echo "Record updated successfully<br />";
+			} else {
+				echo "<br />Update Error in SQL Injection<br />";
+			}
+			
 		} else {
 			$sqlInsert = $connection->prepare("INSERT INTO `dickinso_mini`.`ESI_CharPublic` (`ESI_CharPublic_ID`, `ESI_CharPublic_Alliance_ID`, `ESI_CharPublic_Ancestry_ID`, `ESI_CharPublic_Birthday`, `ESI_CharPublic_Bloodline_ID`, `ESI_CharPublic_Corp_ID`, `ESI_CharPublic_Description`, `ESI_CharPublic_Gender`, `ESI_CharPublic_Name`, `ESI_CharPublic_Race_ID`, `ESI_CharPublic_Security_Status`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 

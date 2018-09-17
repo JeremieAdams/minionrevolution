@@ -1,5 +1,7 @@
 <?php
 
+	include_once ('class.httpGetCall.php');
+	
 /*
 	Class:		.
 	Author:		Jeremie M Adams
@@ -33,16 +35,23 @@ class ESIcorpPublic {
 	private function rowCheck(){
 		require './esqueele/connect.php';
 
-		$sqlStatement = "SELECT * FROM `ESI_CharPublic` WHERE `ESI_CharPublic_ID` = ".$this->character_id;
+		$sqlStatement = "SELECT * FROM `ESI_CorpPublic` WHERE `ESI_CorpPublic_CorpID` = ".$this->corporation_id;
 		$result = $connection->query($sqlStatement);
 		
-		if ($result->num_rows) {
-			$sqlInsert = $connection->prepare("UPDATE `dickinso_mini`.`ESI_CharPublic` SET `ESI_CharPublic_Alliance_ID` = ?, `ESI_CharPublic_Ancestry_ID` = ?, `ESI_CharPublic_Birthday` = ?, `ESI_CharPublic_Bloodline_ID` = ?, `ESI_CharPublic_Corp_ID` = ?, `ESI_CharPublic_Description` = ?, `ESI_CharPublic_Gender` = ?, `ESI_CharPublic_Name` = ?, `ESI_CharPublic_Race_ID` = ?, `ESI_CharPublic_Security_Status` = ? WHERE ESI_CharPublic_ID = ?");
-			$sqlInsert->bind_param('iiisiisssid', $this->character_id, $this->alliance_id, $this->ancestry_id, $this->birthday, $this->bloodline_id, $this->corporation_id, $this->description, $this->gender, $this->name, $this->race_id, $this->security_status);
+		if ($result->num_rows != 0) {
+			$sqlInsert = $connection->prepare("UPDATE `ESI_CorpPublic` SET `ESI_CorpPublic_AllianceID` = ?, `ESI_CorpPublic_CEOID` = ?, `ESI_CorpPublic_DateFounded` = ?, `ESI_CorpPublic_Description` = ?, `ESI_CorpPublic_HomeStationID` = ?, `ESI_CorpPublic_MemberCount` = ?, `ESI_CorpPublic_Name` = ?, `ESI_CorpPublic_Shares` = ?, `ESI_CorpPublic_TaxRate` = ?, `ESI_CorpPublic_Ticker` = ?, `ESI_CorpPublic_CorpURL` = ? WHERE ESI_CorpPublic_CorpID = ?");
+			$sqlInsert->bind_param('iiissiisidss', $this->alliance_id, $this->ceo_id, $this->date_founded, $this->description, $this->home_station_id, $this->member_count, $this->name, $this->shares, $this->tax_rate, $this->ticker, $this->corp_url, $this->corporation_id);
+						
+			if ($sqlInsert->execute()) {
+				echo "Record updated successfully<br />";
+			} else {
+				echo "<br />Update Error in SQL Injection<br />";
+			}
+			
 		} else {
-			$sqlInsert = $connection->prepare("INSERT INTO `dickinso_mini`.`ESI_CharPublic` (`ESI_CharPublic_ID`, `ESI_CharPublic_Alliance_ID`, `ESI_CharPublic_Ancestry_ID`, `ESI_CharPublic_Birthday`, `ESI_CharPublic_Bloodline_ID`, `ESI_CharPublic_Corp_ID`, `ESI_CharPublic_Description`, `ESI_CharPublic_Gender`, `ESI_CharPublic_Name`, `ESI_CharPublic_Race_ID`, `ESI_CharPublic_Security_Status`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+			$sqlInsert = $connection->prepare("INSERT INTO `ESI_CorpPublic` (`ESI_CorpPublic_CorpID`, `ESI_CorpPublic_AllianceID`, `ESI_CorpPublic_CEOID`, `ESI_CorpPublic_DateFounded`, `ESI_CorpPublic_Description`, `ESI_CorpPublic_HomeStationID`, `ESI_CorpPublic_MemberCount`, `ESI_CorpPublic_Name`, `ESI_CorpPublic_Shares`, `ESI_CorpPublic_TaxRate`, `ESI_CorpPublic_Ticker`, `ESI_CorpPublic_CorpURL`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
-			$sqlInsert->bind_param('iiisiisssid', $this->character_id, $this->alliance_id, $this->ancestry_id, $this->birthday, $this->bloodline_id, $this->corporation_id, $this->description, $this->gender, $this->name, $this->race_id, $this->security_status);
+			$sqlInsert->bind_param('iiissiisidss', $this->corporation_id, $this->alliance_id, $this->ceo_id, $this->date_founded, $this->description, $this->home_station_id, $this->member_count, $this->name, $this->shares, $this->tax_rate, $this->ticker, $this->corp_url);
 
 			if ($sqlInsert->execute()) {
 				echo "New record created successfully<br />";
@@ -60,6 +69,7 @@ class ESIcorpPublic {
 		$esiCall = new httpGetCall($this->url);
 		$this->response = $esiCall->getReponse();
 		$this->setCorpDetails();
+		$this->rowCheck();
 	}
 	
 	////***	Modifier Functions

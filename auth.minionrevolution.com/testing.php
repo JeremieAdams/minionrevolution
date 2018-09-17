@@ -1,6 +1,4 @@
 <?php
-
-	require '../public_html/minionrevolution.com/esqueele/connect.php';
 	
 	include_once ('classes/class.tokenCheck.php');
 	include_once ('classes/class.mailHeaders.php');
