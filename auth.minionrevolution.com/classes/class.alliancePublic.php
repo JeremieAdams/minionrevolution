@@ -34,8 +34,8 @@ class ESIalliancePublic {
 		$result = $connection->query($sqlStatement);
 		
 		if ($result->num_rows != 0) {
-			$sqlInsert = $connection->prepare("UPDATE `ESI_AlliancePublic` SET `ESI_AlliancePublic_ID` = ?, `ESI_AlliancePublic_CreatorCorpID` = ?, `ESI_AlliancePublic_CreatorID` = ?, `ESI_AlliancePublic_DateFounded` = ?, `ESI_AlliancePublic_ExecutorCorpID` = ? `ESI_AlliancePublic_Name` = ?, `ESI_AlliancePublic_Ticker` = ? WHERE ESI_AlliancePublic_ID = ?");
-			$sqlInsert->bind_param('iiisissi', $this->alliance_id, $this->creator_corporation_id, $this->creator_id, $this->date_founded, $this->executor_corporation_id, $this->member_count, $this->name, $this->ticker, $this->alliance_id);
+			$sqlInsert = $connection->prepare("UPDATE `ESI_AlliancePublic` SET  `ESI_AlliancePublic_CreatorCorpID` = ?, `ESI_AlliancePublic_CreatorID` = ?, `ESI_AlliancePublic_DateFounded` = ?, `ESI_AlliancePublic_ExecutorCorpID` = ?, `ESI_AlliancePublic_Name` = ?, `ESI_AlliancePublic_Ticker` = ? WHERE `ESI_AlliancePublic_ID` = ?");
+			$sqlInsert->bind_param('iisissi', $this->creator_corporation_id, $this->creator_id, $this->date_founded, $this->executor_corporation_id, $this->name, $this->ticker, $this->alliance_id);
 						
 			if ($sqlInsert->execute()) {
 				echo "Record updated successfully<br />";
@@ -44,7 +44,7 @@ class ESIalliancePublic {
 			}
 			
 		} else {
-			$sqlInsert = $connection->prepare("INSERT INTO `ESI_AlliancePublic` (`ESI_AlliancePublic_ID`, `ESI_AlliancePublic_ID`, `ESI_AlliancePublic_CreatorCorpID`, `ESI_AlliancePublic_CreatorID`, `ESI_AlliancePublic_DateFounded`, `ESI_AlliancePublic_ExecutorCorpID`,\ `ESI_AlliancePublic_Name`, `ESI_AlliancePublic_Ticker`) VALUES (?, ?, ?, ?, ?, ?, ?)");
+			$sqlInsert = $connection->prepare("INSERT INTO `ESI_AlliancePublic` (`ESI_AlliancePublic_ID`, `ESI_AlliancePublic_CreatorCorpID`, `ESI_AlliancePublic_CreatorID`, `ESI_AlliancePublic_DateFounded`, `ESI_AlliancePublic_ExecutorCorpID`, `ESI_AlliancePublic_Name`, `ESI_AlliancePublic_Ticker`) VALUES (?, ?, ?, ?, ?, ?, ?)");
 
 			$sqlInsert->bind_param('iiisiss', $this->alliance_id, $this->creator_corporation_id, $this->creator_id, $this->date_founded, $this->executor_corporation_id, $this->name, $this->ticker);
 

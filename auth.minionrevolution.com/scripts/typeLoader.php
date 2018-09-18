@@ -1,17 +1,18 @@
 <?php
 	
-	include_once ('classes/class.httpGetCall.php');
-	require ('esqueele/connect.php');
+	include_once ('../class.httpGetCall.php');
+	require ('../esqueele/connect.php');
 	
 	$urlHead = "https://esi.evetech.net/latest/";
 	$urlTail = "/?datasource=tranquility&page=";
 	$urlHead2 = "https://esi.evetech.net/latest/universe/types/";
 	$urlTail2 = "?datasource=tranquility&language=en-us";
+	$pageNumber = 1;
 	$urlRoute = "universe/types";
 	
 	$numberArray = array();
 	
-	for ($x = 21; $x < 22 ; $x++) {
+	for ($x = 1; $x < 38 ; $x++) {
 		$itemCall = new httpGetCall($urlHead.$urlRoute.$urlTail.$x);
 		$response = $itemCall->getResponse();
 		foreach($response as $value){
@@ -24,7 +25,7 @@
 			$result = $connection->query($sqlStatement);
 			
 			if ($result->num_rows != 0) {
-				$sqlInsert = $connection->prepare("UPDATE `ESI_Types` SET `ESI_Types_Description` = ?, `ESI_Types_GroupID` = ?, `ESI_Types_Name` = ?, `ESI_Types_Published` = ? WHERE ESI_Types_ID = ?");
+				$sqlInsert = $connection->prepare("UPDATE `ESI_Types` SET `ESI_Types_Description` = ?, `ESI_Types_GroupID` = ?, `ESI_Types_Name` = ?, `ESI_Types_Published` = ?= ? WHERE ESI_Types_ID = ?");
 				$sqlInsert->bind_param('sisii', $response2->description, $response2->group_id, $response2->name, $response2->published, $value);
 				
 				if ($sqlInsert->execute()) {

@@ -26,7 +26,6 @@ class SSOtokenCheck {
 	
 	private function expiryCheck(){
 		if ($this->character_ID != $this->response->CharacterID){
-			echo "Token expired: <br />";
 			var_dump($this);
 			$tokenCall = new tokenRefresh($this->refreshToken);
 			$this->accessToken = $tokenCall->getAccessToken();
@@ -50,7 +49,7 @@ class SSOtokenCheck {
 	////***	Set Functions
 	
 	private function setAccessToken(){
-		require './esqueele/connect.php';
+		require '../esqueele/connect.php';
 		$tokenCheck = "SELECT * FROM `auth_Token` WHERE `auth_Token_CharacterID` = " . $this->character_ID . " ORDER BY `auth_Token_ID` DESC LIMIT 1";
 		$result = $connection->query($tokenCheck);
 		$rowResults = $result->fetch_assoc();

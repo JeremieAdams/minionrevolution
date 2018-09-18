@@ -1,7 +1,7 @@
 <?php
 	
-	include_once ('classes/class.httpGetCall.php');
-	require ('esqueele/connect.php');
+	include_once ('../class.httpGetCall.php');
+	require ('../esqueele/connect.php');
 	
 	$urlHead = "https://esi.evetech.net/latest/universe/systems/";
 	$urlTail = "?datasource=tranquility&language=en-us";

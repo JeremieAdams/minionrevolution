@@ -32,6 +32,12 @@ class  httpGetCall{
 		$this->response = json_decode(curl_exec($ch));
 		return;
 	}
+	
+	public function sendCall($inRoute){
+		$this->setRoute($inRoute);
+		$this->cURLRequest();
+		return;
+	}
 
 	////***	Constructor
 	
@@ -52,7 +58,7 @@ class  httpGetCall{
 	
 	////***	Get Functions
 	
-	public function getReponse(){
+	public function getResponse(){
 		return $this->response;
 	}
 }

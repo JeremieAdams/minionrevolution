@@ -46,7 +46,7 @@ class  tokenRefresh{
 	}
 	
 	private function prepareSQL() {
-		require './esqueele/connect.php';
+		require '../esqueele/connect.php';
 		$now = new DateTime();
 		$this->currentDT = $now->date;
 		$sqlInsert = $connection->prepare("INSERT INTO `auth_Token` (`auth_Token_ID`, `auth_Token_CharacterID`, `auth_Token_AccessToken`, `auth_Token_RefreshToken`, `auth_Token_TokenType`, `auth_Token_DateTime`) VALUES (NULL, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
@@ -54,7 +54,6 @@ class  tokenRefresh{
 		
 		if ($sqlInsert->execute()) {
 			$last_id = $connection->insert_id;
-			echo "New record created successfully : " . $last_id . "<br />";
 		} else {
 			echo "Error in SQL Injection";
 		}

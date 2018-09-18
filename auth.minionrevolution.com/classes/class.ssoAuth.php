@@ -99,6 +99,10 @@ class ssoAuth {
 	public function getAuthResponse(){
 		return $this->response;
 	}
+	
+	public function getCharID(){
+		return $this->charID;
+	}
 }
 
 ?>
