@@ -1,6 +1,7 @@
 <?php
 
 	include_once ('class.httpGetCall.php');
+	include_once ('class.alliancePublic.php');
 	
 /*
 	Class:		.
@@ -40,10 +41,10 @@ class ESIcorpPublic {
 		
 		if ($result->num_rows != 0) {
 			$sqlInsert = $connection->prepare("UPDATE `ESI_CorpPublic` SET `ESI_CorpPublic_AllianceID` = ?, `ESI_CorpPublic_CEOID` = ?, `ESI_CorpPublic_DateFounded` = ?, `ESI_CorpPublic_Description` = ?, `ESI_CorpPublic_HomeStationID` = ?, `ESI_CorpPublic_MemberCount` = ?, `ESI_CorpPublic_Name` = ?, `ESI_CorpPublic_Shares` = ?, `ESI_CorpPublic_TaxRate` = ?, `ESI_CorpPublic_Ticker` = ?, `ESI_CorpPublic_CorpURL` = ? WHERE ESI_CorpPublic_CorpID = ?");
-			$sqlInsert->bind_param('iiissiisidss', $this->alliance_id, $this->ceo_id, $this->date_founded, $this->description, $this->home_station_id, $this->member_count, $this->name, $this->shares, $this->tax_rate, $this->ticker, $this->corp_url, $this->corporation_id);
+			$sqlInsert->bind_param('iissiisidssi', $this->alliance_id, $this->ceo_id, $this->date_founded, $this->description, $this->home_station_id, $this->member_count, $this->name, $this->shares, $this->tax_rate, $this->ticker, $this->corp_url, $this->corporation_id);
 						
 			if ($sqlInsert->execute()) {
-				echo "Record updated successfully<br />";
+				echo $this->name . ": Record updated successfully<br />";
 			} else {
 				echo "<br />Update Error in SQL Injection<br />";
 			}
@@ -54,11 +55,23 @@ class ESIcorpPublic {
 			$sqlInsert->bind_param('iiissiisidss', $this->corporation_id, $this->alliance_id, $this->ceo_id, $this->date_founded, $this->description, $this->home_station_id, $this->member_count, $this->name, $this->shares, $this->tax_rate, $this->ticker, $this->corp_url);
 
 			if ($sqlInsert->execute()) {
-				echo "New record created successfully<br />";
+				echo $this->name . ": New record created successfully<br />";
 			} else {
 				echo "<br />Error in SQL Injection<br />";
 			}
 		}
+	}
+	
+	private function allianceCheck(){
+		require './esqueele/connect.php';
+
+		$sqlStatement = "SELECT * FROM `ESI_AlliancePublic` WHERE `ESI_AlliancePublic_ID` = ".$this->alliance_id;
+		$result = $connection->query($sqlStatement);
+		
+		if ($result->num_rows == 0) {
+			$allianceFire = new ESIalliancePublic($this->alliance_id);
+		}
+		return;
 	}
 
 	////***	Constructor
@@ -67,9 +80,12 @@ class ESIcorpPublic {
 		$this->corporation_id = $inCorpID;
 		$this->setURL($inCorpID);
 		$esiCall = new httpGetCall($this->url);
-		$this->response = $esiCall->getReponse();
+		$this->response = $esiCall->getResponse();
 		$this->setCorpDetails();
 		$this->rowCheck();
+		if (isset($this->alliance_id)){
+			$this->allianceCheck();
+		};
 	}
 	
 	////***	Modifier Functions

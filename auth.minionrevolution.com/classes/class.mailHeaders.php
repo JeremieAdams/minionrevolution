@@ -17,15 +17,29 @@ class ESImailHeaders {
 	
 	private $url;
 	private $response;
+	private $characterID;
+	private $token;
+	private $mailResponse = [];
 
 	/*	Methods		*/
+	
+	private function fetchMails(){
+		foreach ($this->response as $item){
+			$esiMailCall = new httpGetCall("https://esi.evetech.net/latest/characters/" . $this->characterID . "/mail/". $item->mail_id ."/?datasource=tranquility&token=" . $this->token);
+			array_push($this->mailResponse, $esiMailCall->getResponse());
+		}
+		var_dump($this->mailResponse);
+	}
 
 	////***	Constructor
 	
 	function __construct($inCharID, $inToken){
+		$this->characterID = $inCharID;
+		$this->token = $inToken;
 		$this->setURL ($inCharID, $inToken);
 		$esiCall = new httpGetCall($this->url);
-		$this->response = $esiCall->getReponse();
+		$this->response = $esiCall->getResponse();
+		$this->fetchMails();
 	}
 	
 	////***	Modifier Functions
@@ -41,6 +55,10 @@ class ESImailHeaders {
 
 	public function getResponse(){
 		return $this->response;
+	}
+	
+	public function getMailResponse(){
+		return $this->mailResponse;
 	}
 }
 

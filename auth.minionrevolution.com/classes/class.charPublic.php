@@ -1,6 +1,7 @@
 <?php
 
 	include_once ('class.httpGetCall.php');
+	include_once ('class.corpPublic.php');
 
 /*
 	Class:		.
@@ -30,20 +31,6 @@ class ESIcharPublic {
 	private $response;
 
 	/*	Methods		*/
-
-	////***	Constructor
-	
-	function __construct($inCharID){
-		$this->character_id = $inCharID;
-		$this->setURL($inCharID);
-		$esiCall = new httpGetCall($this->url);
-		$this->response = $esiCall->getReponse();
-		$this->setCharDetails();
-		$this->rowCheck();
-		return;
-	}
-	
-	////***	Modifier Functions
 	
 	private function rowCheck(){
 		require './esqueele/connect.php';
@@ -56,7 +43,7 @@ class ESIcharPublic {
 			$sqlInsert->bind_param('iiisiisssid', $this->character_id, $this->alliance_id, $this->ancestry_id, $this->birthday, $this->bloodline_id, $this->corporation_id, $this->description, $this->gender, $this->name, $this->race_id, $this->security_status);
 			
 			if ($sqlInsert->execute()) {
-				echo "Record updated successfully<br />";
+				echo $this->name . ": Record updated successfully<br />";
 			} else {
 				echo "<br />Update Error in SQL Injection<br />";
 			}
@@ -67,12 +54,39 @@ class ESIcharPublic {
 			$sqlInsert->bind_param('iiisiisssid', $this->character_id, $this->alliance_id, $this->ancestry_id, $this->birthday, $this->bloodline_id, $this->corporation_id, $this->description, $this->gender, $this->name, $this->race_id, $this->security_status);
 
 			if ($sqlInsert->execute()) {
-				echo "New record created successfully<br />";
+				echo $this->name . ": New record created successfully<br />";
 			} else {
-				echo "<br />Error in SQL Injection<br />";
+				echo "<br />Error in SQL Injection <br />" . var_dump($sqlInsert);
 			}
 		}
 	}
+	
+	private function corpCheck(){
+		require './esqueele/connect.php';
+
+		$sqlStatement = "SELECT * FROM `ESI_CorpPublic` WHERE `ESI_CorpPublic_CorpID` = ".$this->corporation_id;
+		$result = $connection->query($sqlStatement);
+		
+		if ($result->num_rows == 0) {
+			$corpFire = new ESIcorpPublic($this->corporation_id);
+		}
+		return;
+	}
+
+	////***	Constructor
+	
+	function __construct($inCharID){
+		$this->character_id = $inCharID;
+		$this->setURL($inCharID);
+		$esiCall = new httpGetCall($this->url);
+		$this->response = $esiCall->getResponse();
+		$this->setCharDetails();
+		$this->rowCheck();
+		$this->corpCheck();
+		return;
+	}
+	
+	////***	Modifier Functions
 	
 	////***	Set Functions
 	

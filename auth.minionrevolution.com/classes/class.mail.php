@@ -1,6 +1,7 @@
 <?php
 	
 	include_once ('class.httpGetCall.php');
+	include_once ('class.fetchChar.php');
 
 /*
 	Class:		.
@@ -21,12 +22,16 @@ class ESImail {
 
 	/*	Methods		*/
 	
+	private function $TBD(){
+		$ToBeDet = new charDetails();
+	}
+	
 	////***	Constructor
 	
 	function __construct($inMailID, $inCharID, $inToken){
 		$this->setURL ($inMailID, $inCharID, $inToken);
 		$esiCall = new httpGetCall($this->url);
-		$this->response = $esiCall->getReponse();
+		$this->response = $esiCall->getResponse();
 	}
 	
 	////***	Modifier Functions

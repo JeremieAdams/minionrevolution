@@ -26,7 +26,6 @@ class SSOtokenCheck {
 	
 	private function expiryCheck(){
 		if ($this->character_ID != $this->response->CharacterID){
-			var_dump($this);
 			$tokenCall = new tokenRefresh($this->refreshToken);
 			$this->accessToken = $tokenCall->getAccessToken();
 		}
@@ -39,7 +38,7 @@ class SSOtokenCheck {
 		$this->character_ID = $inCharID;
 		$this->setAccessToken();
 		$esiCall = new httpGetCall($this->url);
-		$this->response = $esiCall->getReponse();
+		$this->response = $esiCall->getResponse();
 		$this->expiryCheck();
 		return;
 	}

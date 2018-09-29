@@ -26,7 +26,7 @@ class ESIasset {
 	function __construct($inCharID, $inToken){
 		$this->setURL($inCharID, $inToken);
 		$esiCall = new httpGetCall($this->url);
-		$this->response = $esiCall->getReponse();
+		$this->response = $esiCall->getResponse();
 		
 		var_dump($esiCall);
 	}

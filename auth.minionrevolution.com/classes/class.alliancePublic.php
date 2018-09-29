@@ -38,7 +38,7 @@ class ESIalliancePublic {
 			$sqlInsert->bind_param('iisissi', $this->creator_corporation_id, $this->creator_id, $this->date_founded, $this->executor_corporation_id, $this->name, $this->ticker, $this->alliance_id);
 						
 			if ($sqlInsert->execute()) {
-				echo "Record updated successfully<br />";
+				echo $this->name . ": Record updated successfully<br />";
 			} else {
 				echo "<br />Update Error in SQL Injection<br />";
 			}
@@ -49,7 +49,7 @@ class ESIalliancePublic {
 			$sqlInsert->bind_param('iiisiss', $this->alliance_id, $this->creator_corporation_id, $this->creator_id, $this->date_founded, $this->executor_corporation_id, $this->name, $this->ticker);
 
 			if ($sqlInsert->execute()) {
-				echo "New record created successfully<br />";
+				echo $this->name . ": New record created successfully<br />";
 			} else {
 				echo "<br />Error in SQL Injection<br />";
 			}
@@ -62,7 +62,7 @@ class ESIalliancePublic {
 		$this->alliance_id = $inAllianceID;
 		$this->setURL($inAllianceID);
 		$esiCall = new httpGetCall($this->url);
-		$this->response = $esiCall->getReponse();
+		$this->response = $esiCall->getResponse();
 		$this->setAllianceDetails();
 		$this->rowCheck();
 		return;

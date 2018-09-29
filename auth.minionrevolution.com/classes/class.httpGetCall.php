@@ -15,7 +15,6 @@ class  httpGetCall{
 	
 	private $url;
 	private $response;
-	private $headers;
 		
 	/*	Methods		*/
 	

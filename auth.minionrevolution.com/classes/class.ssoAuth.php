@@ -55,8 +55,6 @@ class ssoAuth {
 		} else {
 			echo "Error in SQL Injection";
 		}
-		
-		var_dump($sqlInsert);
 	}
 	
 	////***	Constructor

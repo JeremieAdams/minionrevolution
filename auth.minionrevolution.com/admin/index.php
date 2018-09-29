@@ -4,7 +4,7 @@
 
 	$page = "admin/index.php";
 
-	include_once ('../classes/class.pagelog.php');
+//	include_once ('../classes/class.pagelog.php');
 
 	//$pageLog = new PageLog($page);
 
