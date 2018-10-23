@@ -28,7 +28,6 @@ class ESImailHeaders {
 			$esiMailCall = new httpGetCall("https://esi.evetech.net/latest/characters/" . $this->characterID . "/mail/". $item->mail_id ."/?datasource=tranquility&token=" . $this->token);
 			array_push($this->mailResponse, $esiMailCall->getResponse());
 		}
-		var_dump($this->mailResponse);
 	}
 
 	////***	Constructor

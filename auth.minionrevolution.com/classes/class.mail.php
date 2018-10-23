@@ -22,8 +22,8 @@ class ESImail {
 
 	/*	Methods		*/
 	
-	private function $TBD(){
-		$ToBeDet = new charDetails();
+	private function LoadMail(){
+		
 	}
 	
 	////***	Constructor

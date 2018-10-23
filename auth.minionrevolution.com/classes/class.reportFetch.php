@@ -45,7 +45,10 @@ class ESIreportFetch {
 	$mailHeaderCall = new ESImailHeaders($this->character_id, $this->authToken);
 	$this->mailHeaderResponse = $mailHeaderCall->getResponse();
 	$this->mailResponse = $mailHeaderCall->getMailResponse();
-	var_dump($this->mailResponse);
+/*	for ($i = 0 ; $i < 1 ; $i++){
+		var_dump($this->mailResponse[$i]);
+	}
+/*	var_dump($this->mailResponse);
 	echo "<br /><br />";
 
 /*	$contactCall = new ESIcontacts($this->character_id, $this->authToken);

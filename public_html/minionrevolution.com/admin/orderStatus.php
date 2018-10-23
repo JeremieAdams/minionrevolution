@@ -18,6 +18,8 @@
 	LEFT JOIN `fitting` c ON `order_fitting_id` = `fitting_id`
 	LEFT JOIN  `hull` e ON  `fitting_hull_id` =  `hull_id`
 	LEFT JOIN  `hullClass` d ON  `hull_class_id` =  `hullClass_id` 
+	WHERE NOT `order_status_desc` = 'Canceled'
+	AND NOT `order_status_desc` = 'Completed'
 	ORDER BY  `order_id` DESC";
 
 	$result = $connection->query($sql);

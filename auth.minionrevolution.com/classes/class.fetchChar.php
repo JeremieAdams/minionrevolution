@@ -54,7 +54,10 @@ class charDetails {
 	////***	Set Functions
 
 	////***	Get Functions
-
+	
+	public function getRow(){
+		return $this->row;
+	}
 }
 
 ?>	
