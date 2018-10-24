@@ -1,12 +1,12 @@
 <?php
 	
-	include_once ('../classes/class.tokenCheck.php');
-	include_once ('../classes/class.mailHeaders.php');
-	include_once ('../classes/class.mail.php');
-	include_once ('../classes/class.contacts.php');
-	include_once ('../classes/class.asset.php');
-	include_once ('../classes/class.journal.php');
-	include_once ('../classes/class.transactions.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.tokenCheck.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.mailHeaders.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.mail.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.contacts.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.asset.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.journal.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.transactions.php');
 	
 /*
 	Class:		.

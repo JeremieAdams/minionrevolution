@@ -1,7 +1,7 @@
 <?php
 
-	include_once ('class.httpGetCall.php');
-	include_once ('class.corpPublic.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.httpGetCall.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.corpPublic.php');
 
 /*
 	Class:		.
@@ -33,7 +33,7 @@ class ESIcharPublic {
 	/*	Methods		*/
 	
 	private function rowCheck(){
-		require './esqueele/connect.php';
+		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
 
 		$sqlStatement = "SELECT * FROM `ESI_CharPublic` WHERE `ESI_CharPublic_ID` = ".$this->character_id;
 		$result = $connection->query($sqlStatement);
@@ -45,7 +45,7 @@ class ESIcharPublic {
 			if ($sqlInsert->execute()) {
 				echo $this->name . ": Record updated successfully<br />";
 			} else {
-				echo "<br />Update Error in SQL Injection<br />";
+				echo "<br />Update Error in SQL Injection - Char Update<br />" . var_dump($sqlInsert);
 			}
 			
 		} else {
@@ -56,13 +56,13 @@ class ESIcharPublic {
 			if ($sqlInsert->execute()) {
 				echo $this->name . ": New record created successfully<br />";
 			} else {
-				echo "<br />Error in SQL Injection <br />" . var_dump($sqlInsert);
+				echo "<br />Error in SQL Injection - Char Insert<br />" . var_dump($sqlInsert);
 			}
 		}
 	}
 	
 	private function corpCheck(){
-		require './esqueele/connect.php';
+		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
 
 		$sqlStatement = "SELECT * FROM `ESI_CorpPublic` WHERE `ESI_CorpPublic_CorpID` = ".$this->corporation_id;
 		$result = $connection->query($sqlStatement);

@@ -23,7 +23,7 @@ class charDetails {
 	/*	Methods		*/
 	
 	private function findChar(){
-		require './esqueele/connect.php';
+		require '../esqueele/connect.php';
 		$sqlStatement = "SELECT * FROM `ESI_CharPublic` LEFT OUTER JOIN `ESI_CorpPublic` ON `ESI_CharPublic`.`ESI_CharPublic_Corp_ID` = `ESI_CorpPublic`.`ESI_CorpPublic_CorpID` LEFT OUTER JOIN `ESI_AlliancePublic` ON `ESI_CorpPublic`.`ESI_CorpPublic_AllianceID` = `ESI_AlliancePublic`.`ESI_AlliancePublic_ID` WHERE `ESI_CharPublic_ID` = " . $this->characterID;
 		$result = $connection->query($sqlStatement);
 		
@@ -46,7 +46,6 @@ class charDetails {
 	function __construct($inCharID){
 		$this->characterID = $inCharID;
 		$this->findChar();
-		var_dump($this->row);
 	}
 	
 	////***	Modifier Functions

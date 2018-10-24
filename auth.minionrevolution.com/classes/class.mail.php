@@ -1,7 +1,7 @@
 <?php
 	
-	include_once ('class.httpGetCall.php');
-	include_once ('class.fetchChar.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.httpGetCall.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.fetchChar.php');
 
 /*
 	Class:		.
@@ -22,8 +22,24 @@ class ESImail {
 
 	/*	Methods		*/
 	
-	private function LoadMail(){
+	private function LoadMail($inMailID){
+		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
+		$sqlStatement = "SELECT * FROM `ESI_CharacterMails` WHERE `ESI_CharacterMails_MailID` = ".$inMailID;
+		$result = $connection->query($sqlStatement);
 		
+		if ($result->num_rows != 0) {
+			echo "Mail exists in the database.<br />";
+		} else {
+			$sqlInsert = $connection->prepare("INSERT INTO `dickinso_mini`.`ESI_CharacterMails` (`ESI_CharacterMails_MailID`, `ESI_CharacterMails_FromID`, `ESI_CharacterMails_Subject`, `ESI_CharacterMails_Timestamp`, `ESI_CharacterMails_Body`) VALUES (?,?,?,?,?)");
+
+			$sqlInsert->bind_param('iisss', $inMailID, $this->response->from, $this->response->subject, $this->response->timestamp, strip_tags($this->response->body));
+
+			if ($sqlInsert->execute()) {
+				echo "Mail: " . $inMailID . ": New record created successfully<br />";
+			} else {
+				echo "<br />Error in SQL Injection <br />" . var_dump($sqlInsert);
+			}
+		}
 	}
 	
 	////***	Constructor
@@ -32,6 +48,7 @@ class ESImail {
 		$this->setURL ($inMailID, $inCharID, $inToken);
 		$esiCall = new httpGetCall($this->url);
 		$this->response = $esiCall->getResponse();
+		$this->LoadMail($inMailID);
 	}
 	
 	////***	Modifier Functions

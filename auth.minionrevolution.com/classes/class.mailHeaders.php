@@ -1,7 +1,8 @@
 <?php
 
-	include_once ('class.httpGetCall.php');
-
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.httpGetCall.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.fetchChar.php');
+	
 /*
 	Class:		.
 	Author:		Jeremie M Adams
@@ -26,7 +27,32 @@ class ESImailHeaders {
 	private function fetchMails(){
 		foreach ($this->response as $item){
 			$esiMailCall = new httpGetCall("https://esi.evetech.net/latest/characters/" . $this->characterID . "/mail/". $item->mail_id ."/?datasource=tranquility&token=" . $this->token);
-			array_push($this->mailResponse, $esiMailCall->getResponse());
+			$mail = $esiMailCall->getResponse();
+			$this->LoadMail($item->mail_id, $mail);
+			array_push($this->mailResponse, $mail);
+		}
+	}
+	
+	private function LoadMail($inMailID, $mailObject){
+		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
+		$sqlStatement = "SELECT * FROM `ESI_CharacterMails` WHERE `ESI_CharacterMails_MailID` = ".$inMailID;
+		$result = $connection->query($sqlStatement);
+		$bodyAdjust  = strip_tags($mailObject->body);
+		if ($result->num_rows != 0) {
+			echo "Mail exists in the database.<br />";
+		} else {
+			$sqlInsert = $connection->prepare("INSERT INTO `dickinso_mini`.`ESI_CharacterMails` (`ESI_CharacterMails_MailID`, `ESI_CharacterMails_FromID`, `ESI_CharacterMails_Subject`, `ESI_CharacterMails_Timestamp`, `ESI_CharacterMails_Body`, `ESI_CharacterMails_CharID`) VALUES (?,?,?,?,?,?)");
+
+			$sqlInsert->bind_param('iisssi', $inMailID, $mailObject->from, $mailObject->subject, $mailObject->timestamp, $bodyAdjust, $this->characterID);
+
+			if ($sqlInsert->execute()) {
+				echo "Mail: " . $inMailID . ": New record created successfully<br />";
+				$fetchChar = new charDetails($mailObject->from);
+			} else {
+				echo "<br />Error in SQL Injection <br />" . var_dump($sqlInsert);
+			}
+			
+			
 		}
 	}
 

@@ -1,6 +1,6 @@
 <?php
 
-	include_once ('class.httpGetCall.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.httpGetCall.php');
 	
 /*
 	Class:		.
@@ -28,7 +28,7 @@ class ESIalliancePublic {
 	/*	Methods		*/
 	
 	private function rowCheck(){
-		require './esqueele/connect.php';
+		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
 
 		$sqlStatement = "SELECT * FROM `ESI_AlliancePublic` WHERE `ESI_AlliancePublic_ID` = ".$this->alliance_id;
 		$result = $connection->query($sqlStatement);
@@ -40,7 +40,7 @@ class ESIalliancePublic {
 			if ($sqlInsert->execute()) {
 				echo $this->name . ": Record updated successfully<br />";
 			} else {
-				echo "<br />Update Error in SQL Injection<br />";
+				echo "<br />Update Error in SQL Injection - Alliance Update<br />" . var_dump($sqlInsert);
 			}
 			
 		} else {
@@ -51,7 +51,7 @@ class ESIalliancePublic {
 			if ($sqlInsert->execute()) {
 				echo $this->name . ": New record created successfully<br />";
 			} else {
-				echo "<br />Error in SQL Injection<br />";
+				echo "<br />Error in SQL Injection - Alliance Inject<br />" . var_dump($sqlInsert);
 			}
 		}
 	}
@@ -65,6 +65,7 @@ class ESIalliancePublic {
 		$this->response = $esiCall->getResponse();
 		$this->setAllianceDetails();
 		$this->rowCheck();
+		$this->
 		return;
 	}
 	

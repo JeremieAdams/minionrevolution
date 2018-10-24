@@ -1,7 +1,7 @@
 <?php
 
-	include_once ('class.httpGetCall.php');
-	include_once ('class.token.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.httpGetCall.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.token.php');
 
 /*
 	Class:		.
@@ -48,7 +48,7 @@ class SSOtokenCheck {
 	////***	Set Functions
 	
 	private function setAccessToken(){
-		require '../esqueele/connect.php';
+		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
 		$tokenCheck = "SELECT * FROM `auth_Token` WHERE `auth_Token_CharacterID` = " . $this->character_ID . " ORDER BY `auth_Token_ID` DESC LIMIT 1";
 		$result = $connection->query($tokenCheck);
 		$rowResults = $result->fetch_assoc();

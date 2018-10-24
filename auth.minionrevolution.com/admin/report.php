@@ -4,7 +4,7 @@
 	
 	$page = "admin/report.php";
 	
-	include_once ('../classes/class.reportFetch.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.reportFetch.php');
 	
 	if(isset($_GET["charID"])){
 		$buildReport = new ESIreportFetch($_GET["charID"]);
@@ -24,14 +24,7 @@
 	</head>
 	<body>
 	
-		<?php
-		
-			$mailHeaders = $buildReport->getMailHeadersResponse();
-			foreach ($mailHeaders as $item){
-				echo "From: " . $item->from . "  Subject: " . $item->subject . "  Body :" . strip_tags($item->timestamp) . "<br />";
-			}
-		
-		?>
+
 		
 	</body>
 </html>
