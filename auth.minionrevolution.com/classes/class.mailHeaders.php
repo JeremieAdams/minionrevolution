@@ -26,34 +26,55 @@ class ESImailHeaders {
 	
 	private function fetchMails(){
 		foreach ($this->response as $item){
-			$esiMailCall = new httpGetCall("https://esi.evetech.net/latest/characters/" . $this->characterID . "/mail/". $item->mail_id ."/?datasource=tranquility&token=" . $this->token);
-			$mail = $esiMailCall->getResponse();
-			$this->LoadMail($item->mail_id, $mail);
-			array_push($this->mailResponse, $mail);
+			require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
+			$sqlStatement = "SELECT * FROM `ESI_CharacterMails` WHERE `ESI_CharacterMails_MailID` = ".$item->mail_id;
+			$result = $connection->query($sqlStatement);
+			if ($result->num_rows != 0) {
+				echo "Mail exists in the database.<br />";
+			} else {
+				$esiMailCall = new httpGetCall("https://esi.evetech.net/latest/characters/" . $this->characterID . "/mail/". $item->mail_id ."/?datasource=tranquility&token=" . $this->token);
+				$mail = $esiMailCall->getResponse();
+				$this->LoadMail($item->mail_id, $mail);
+				array_push($this->mailResponse, $mail);
+			}
 		}
+		return;
 	}
 	
 	private function LoadMail($inMailID, $mailObject){
 		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
-		$sqlStatement = "SELECT * FROM `ESI_CharacterMails` WHERE `ESI_CharacterMails_MailID` = ".$inMailID;
-		$result = $connection->query($sqlStatement);
+		
 		$bodyAdjust  = strip_tags($mailObject->body);
-		if ($result->num_rows != 0) {
-			echo "Mail exists in the database.<br />";
-		} else {
-			$sqlInsert = $connection->prepare("INSERT INTO `dickinso_mini`.`ESI_CharacterMails` (`ESI_CharacterMails_MailID`, `ESI_CharacterMails_FromID`, `ESI_CharacterMails_Subject`, `ESI_CharacterMails_Timestamp`, `ESI_CharacterMails_Body`, `ESI_CharacterMails_CharID`) VALUES (?,?,?,?,?,?)");
-
-			$sqlInsert->bind_param('iisssi', $inMailID, $mailObject->from, $mailObject->subject, $mailObject->timestamp, $bodyAdjust, $this->characterID);
-
-			if ($sqlInsert->execute()) {
-				echo "Mail: " . $inMailID . ": New record created successfully<br />";
-				$fetchChar = new charDetails($mailObject->from);
+		
+		foreach ($mailObject->recipients as $item) {
+			$sqlStatement = "SELECT * FROM `ESI_MailRelation` WHERE `ESI_MailRelation_MailID` = ".$inMailID." AND `ESI_MailRelation_RecipientID` = ".$item->recipient_id;
+			$result = $connection->query($sqlStatement);
+			if ($result->num_rows != 0) {
+				echo "Mail relation exists in the database.<br />";
 			} else {
-				echo "<br />Error in SQL Injection <br />" . var_dump($sqlInsert);
+				$sqlInsert = $connection->prepare("INSERT INTO `dickinso_mini`.`ESI_MailRelation` (`ESI_MailRelation_MailID`, `ESI_MailRelation_RecipientID`, `ESI_MailRelation_RecipientType`) VALUES (?,?,?)");
+				
+				$sqlInsert->bind_param('iis', $inMailID, $item->recipient_id, $item->recipient_type);
+				if ($sqlInsert->execute()) {
+					echo "Mail Relation: " . $inMailID . ": New record created successfully<br />";
+					$fetchChar = new charDetails($mailObject->from);
+				} else {
+					echo "<br />Error in SQL Injection <br />" . var_dump($sqlInsert);
+				}
 			}
-			
-			
 		}
+		
+		$sqlInsert = $connection->prepare("INSERT INTO `dickinso_mini`.`ESI_CharacterMails` (`ESI_CharacterMails_MailID`, `ESI_CharacterMails_FromID`, `ESI_CharacterMails_Subject`, `ESI_CharacterMails_Timestamp`, `ESI_CharacterMails_Body`, `ESI_CharacterMails_CharID`) VALUES (?,?,?,?,?,?)");
+
+		$sqlInsert->bind_param('iisssi', $inMailID, $mailObject->from, $mailObject->subject, $mailObject->timestamp, $bodyAdjust, $this->characterID);
+
+		if ($sqlInsert->execute()) {
+			echo "Mail: " . $inMailID . ": New record created successfully<br />";
+			$fetchChar = new charDetails($mailObject->from);
+		} else {
+			echo "<br />Error in SQL Injection <br />" . var_dump($sqlInsert);
+		}
+		return;
 	}
 
 	////***	Constructor

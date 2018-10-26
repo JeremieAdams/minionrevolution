@@ -101,7 +101,7 @@ class ESIcorpPublic {
 		$this->alliance_id = $this->response->alliance_id;
 		$this->ceo_id = $this->response->ceo_id;
 		$this->date_founded = $this->response->date_founded;
-		$this->description = $this->response->description;
+		$this->description = strip_tags($this->response->description);
 		$this->home_station_id = $this->response->home_station_id;
 		$this->member_count = $this->response->member_count;
 		$this->name = $this->response->name;

@@ -101,7 +101,7 @@ class ESIcharPublic {
 		$this->birthday = $this->response->birthday;
 		$this->bloodline_id = $this->response->bloodline_id;
 		$this->corporation_id = $this->response->corporation_id;
-		$this->description = $this->response->description;
+		$this->description = strip_tags($this->response->description);
 		$this->gender = $this->response->gender;
 		$this->name = $this->response->name;
 		$this->race_id = $this->response->race_id;

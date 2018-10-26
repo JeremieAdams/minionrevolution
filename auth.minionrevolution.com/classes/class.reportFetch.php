@@ -41,19 +41,16 @@ class ESIreportFetch {
 
 	$tokenCheck = new SSOtokenCheck($this->character_id);
 	$this->setAuthToken($tokenCheck->getAccessToken());
-	
+/*	
 	$mailHeaderCall = new ESImailHeaders($this->character_id, $this->authToken);
 	$this->mailHeaderResponse = $mailHeaderCall->getResponse();
 	$this->mailResponse = $mailHeaderCall->getMailResponse();
-/*	for ($i = 0 ; $i < 1 ; $i++){
-		var_dump($this->mailResponse[$i]);
-	}
-/*	var_dump($this->mailResponse);
+	var_dump($this->mailResponse);
 	echo "<br /><br />";
-
-/*	$contactCall = new ESIcontacts($this->character_id, $this->authToken);
+*/
+	$contactCall = new ESIcontacts($this->character_id, $this->authToken);
 	$this->contactResponse = $contactCall->getResponse();
-	var_dump($contactCall);
+/*	var_dump($contactCall);
 	echo "<br /><br />";
 	
 	$assetCall = new ESIasset($this->character_id, $this->authToken);
