@@ -16,6 +16,7 @@ class ESIjournal {
 	
 	private $url;
 	private $response;
+	private $characterID;
 
 	/*	Methods		*/
 
@@ -23,6 +24,7 @@ class ESIjournal {
 	
 	function __construct($inCharID, $inToken){
 		$this->setURL ($inCharID, $inToken);
+		$this->setChar ($inCharID);
 		$esiCall = new httpGetCall($this->url);
 		$this->response = $esiCall->getResponse();
 	}
@@ -33,6 +35,11 @@ class ESIjournal {
 	
 	private function setURL ($inInteger, $inString){
 		$this->url = "https://esi.evetech.net/latest/characters/" . $inInteger . "/wallet/journal/?datasource=tranquility&token=" . $inString;
+		return;
+	}
+	
+	private function setChar ($inChar){
+		$this->characterID = $inChar;
 		return;
 	}
 

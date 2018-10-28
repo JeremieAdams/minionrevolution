@@ -47,22 +47,22 @@ class ESIreportFetch {
 	$this->mailResponse = $mailHeaderCall->getMailResponse();
 	var_dump($this->mailResponse);
 	echo "<br /><br />";
-*/
+
 	$contactCall = new ESIcontacts($this->character_id, $this->authToken);
 	$this->contactResponse = $contactCall->getResponse();
-/*	var_dump($contactCall);
+	var_dump($contactCall);
 	echo "<br /><br />";
-	
+
 	$assetCall = new ESIasset($this->character_id, $this->authToken);
 	$this->assetResponse = $assetCall->getResponse();
 	var_dump($assetCall);
 	echo "<br /><br />";
-	
+*/	
 	$journalCall = new ESIjournal($this->character_id, $this->authToken);
 	$this->journalResponse = $journalCall->getResponse();
 	var_dump($journalCall);
 	echo "<br /><br />";
-	
+/*	
 	$transactionsCall = new ESItransactions($this->character_id, $this->authToken);
 	$this->transactionResponse = $transactionsCall->getResponse();
 	var_dump($transactionsCall);

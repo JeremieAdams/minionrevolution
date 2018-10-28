@@ -1,5 +1,9 @@
 <?php
 
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.charPublic.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.corpPublic.php');
+	include_once ('/home/dickinso/auth.minionrevolution.com/classes/class.alliancePublic.php');
+	
 /*
 	Class:		.
 	Author:		Jeremie M Adams
@@ -49,10 +53,23 @@ class ESIcontacts {
 					echo "<br />Update Error in SQL Injection - Contact Insert<br />" . var_dump($sqlInsert);
 				}
 			}
+			$this->charCheck($item);
 		}
+		return;
 	}
 	
-	private function 
+	private function charCheck($contactObject){
+		if ($contactObject->contact_type == 'character') {
+			$charPublic = new ESIcharPublic($contactObject->contact_id);
+		} else if ($contactObject->contact_type == 'corporation'){
+			$corpPublic = new ESIcorpPublic($contactObject->contact_id);
+		} else if ($contactObject->contact_type == 'alliance') {
+			$alliancePublic = new ESIalliancePublic($contactObject->contact_id);
+		} else {
+			echo "Contact type doesn't match<br />";
+		}
+		return;
+	}
 
 	////***	Constructor
 	
