@@ -17,8 +17,15 @@ class ESIjournal {
 	private $url;
 	private $response;
 	private $characterID;
+	private $tranIDS;
 
 	/*	Methods		*/
+	
+	private function fetchJournalIDs(){
+		require '/home/dickinso/auth.minionrevolution.com/esqueele/connect.php';
+		$sqlStatement = "SELECT `ESI_Journal_JournalID` FROM `ESI_Journal` WHERE `ESI_Journal_CharID` = ".$this->characterID;
+		$result = $connection->query($sqlStatement);
+	}
 
 	////***	Constructor
 	
